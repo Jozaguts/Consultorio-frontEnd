@@ -47,13 +47,30 @@ export default {
   ],
 
   auth: {
-    // Options
+    login: '/login',
+    logout: '/',
+    strategies: {
+      local: {
+        endpoints: {
+          login: { url: '/login', method: 'post', propertyName: 'access_token.access_token' },
+          logout: { url: '/api/auth/logout', method: 'post', },
+          user:false/*  { url: '/usuarios/me', method: 'get', propertyName: 'user' }, */
+        },
+        tokenRequired: true,
+        tokenType: 'Bearer', // Case sensitive when dealing with Laravel backend.
+      },
+    }
+  },
+  router: {
+    middleware: ['auth']
   },
   /*
   ** Axios module configuration
   ** See https://axios.nuxtjs.org/options
   */
   axios: {
+    baseURL: 'http://consultorio-dev.com/api',
+    credentials: true
   },
   /*
   ** vuetify module configuration
@@ -62,7 +79,7 @@ export default {
   vuetify: {
     customVariables: ['~/assets/variables.scss'],
     theme: {
-      dark: true,
+      dark: false,
       themes: {
         dark: {
           primary: colors.blue.darken2,
@@ -83,7 +100,7 @@ export default {
     /*
     ** You can extend webpack config here
     */
-    extend (config, ctx) {
+    extend(config, ctx) {
     }
   }
 }
