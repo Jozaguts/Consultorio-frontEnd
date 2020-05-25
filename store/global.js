@@ -7,3 +7,8 @@ export const mutations = {
         state.loading = !state.loading
     }
 }
+export const getters = {
+    getLoading(state) {
+        return state.loading
+    }
+}

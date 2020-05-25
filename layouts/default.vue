@@ -1,7 +1,7 @@
 <template>
   <v-app dark>
     <v-navigation-drawer
-      v-if="loggedIn"
+      v-if="authenticated"
       v-model="drawer"
       :mini-variant="miniVariant"
       :clipped="clipped"
@@ -19,13 +19,13 @@
         </v-list-item>
       </v-list>
     </v-navigation-drawer>
-    <v-app-bar v-if="loggedIn" :clipped-left="clipped" fixed app></v-app-bar>
-    <v-content :class="{loginBackground: !loggedIn}">
+    <v-app-bar v-if="authenticated" :clipped-left="clipped" fixed app></v-app-bar>
+    <v-content :class="{loginBackground: !authenticated}">
       <v-container>
-        <v-overlay :value="loadingToggle">
+        <v-overlay :value="isLoading">
           <pulse-loader></pulse-loader>
         </v-overlay>
-        <v-row v-if="!loggedIn">
+        <v-row v-if="!authenticated">
           <v-col cols="12">
             <h1 class="text-center">Sistema de gestion de consultorios</h1>
           </v-col>
@@ -51,6 +51,7 @@
 
 <script>
 import PulseLoader from 'vue-spinner/src/PulseLoader.vue'
+import { mapGetters } from 'vuex'
 export default {
   components: {
     PulseLoader
@@ -79,15 +80,12 @@ export default {
     }
   },
   computed: {
-    loggedIn() {
-      return  this.$auth.loggedIn
+    authenticated() {
+      return this.$auth.loggedIn
     },
-    loadingToggle() {
-      return this.$store.state.global.loading
-    }
-  },
-  mounted() {
-    this.authenticated
+    ...mapGetters({
+      isLoading: 'global/getLoading'
+    })
   }
 }
 </script>
