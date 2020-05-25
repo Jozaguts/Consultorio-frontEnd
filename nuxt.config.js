@@ -25,6 +25,7 @@ export default {
   ** Global CSS
   */
   css: [
+    
   ],
   /*
   ** Plugins to load before mounting the App
@@ -53,8 +54,8 @@ export default {
       local: {
         endpoints: {
           login: { url: '/login', method: 'post', propertyName: 'access_token.access_token' },
-          logout: { url: '/api/auth/logout', method: 'post', },
-          user:false/*  { url: '/usuarios/me', method: 'get', propertyName: 'user' }, */
+          logout: { url: '/logout', method: 'post', },
+          user: { url: '/usuarios/current', method: 'get', propertyName: 'user' },
         },
         tokenRequired: true,
         tokenType: 'Bearer', // Case sensitive when dealing with Laravel backend.
