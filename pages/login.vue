@@ -20,26 +20,31 @@
 </template>
 
 <script>
+import { mapMutations } from 'vuex'
 export default {
   data() {
     return {
       credentials: {
-        email: '',
-        password: ''
-      }
+        email: 'test@test.com',
+        password: 'password'
+      },
+      loading: false
     }
   },
   methods: {
     async userLogin() {
       try {
-        let response = await this.$auth.loginWith('local', {
-          data: this.credentials
-        })
-        console.log(response)
+        await this.toggleLoading()
+        await this.$auth.loginWith('local', { data: this.credentials })
       } catch (err) {
-        console.log(err)
+        console.error(err)
+      } finally {
+        this.toggleLoading()
       }
-    }
+    },
+    ...mapMutations({
+      toggleLoading: 'global/toggleLoading'
+    })
   }
 }
 </script>

@@ -22,6 +22,9 @@
     <v-app-bar v-if="loggedIn" :clipped-left="clipped" fixed app></v-app-bar>
     <v-content :class="{loginBackground: !loggedIn}">
       <v-container>
+        <v-overlay :value="loadingToggle">
+          <pulse-loader></pulse-loader>
+        </v-overlay>
         <v-row v-if="!loggedIn">
           <v-col cols="12">
             <h1 class="text-center">Sistema de gestion de consultorios</h1>
@@ -47,13 +50,16 @@
 </template>
 
 <script>
+import PulseLoader from 'vue-spinner/src/PulseLoader.vue'
 export default {
+  components: {
+    PulseLoader
+  },
   data() {
     return {
       clipped: false,
       drawer: true,
       fixed: false,
-      loggedIn: false,
       items: [
         {
           icon: 'mdi-apps',
@@ -73,8 +79,11 @@ export default {
     }
   },
   computed: {
-    authenticated() {
-      return (this.loggedIn = this.$auth.loggedIn)
+    loggedIn() {
+      return  this.$auth.loggedIn
+    },
+    loadingToggle() {
+      return this.$store.state.global.loading
     }
   },
   mounted() {
